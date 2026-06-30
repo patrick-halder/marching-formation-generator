@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Marschaufstellung-Generator</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+</head>
+
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div>
+                <h1>Marschaufstellung-Generator</h1>
+            </div>
+            <div class="variant-pills" role="radiogroup" aria-label="Aufstellungsvariante">
+                <div class="variant-pill">
+                    <input type="radio" name="variant" id="v1" value="variante1" checked />
+                    <label for="v1">Variante&nbsp;1 &mdash; Traditionell</label>
+                </div>
+                <div class="variant-pill">
+                    <input type="radio" name="variant" id="v2" value="variante2" />
+                    <label for="v2">Variante&nbsp;2 &mdash; Melodie / Schlagzeug / Harmonie</label>
+                </div>
+            </div>
+        </header>
+
+        <div class="layout">
+            <!-- Input Form Section -->
+            <section class="sidebar" aria-label="Besetzungseingabe">
+                <h2 class="sidebar-title">Besetzung</h2>
+                <form id="input-form" novalidate>
+                    <div class="instr-list" id="instr-list">
+                        <div class="instr-row">
+                            <div class="instr-swatch" style="background: #06b6d4"></div>
+                            <label class="instr-name" for="count-floeten">Flöten</label>
+                            <input class="instr-count" id="count-floeten" type="number" min="0" max="99" value="3" data-register="floeten" aria-label="Flöten Anzahl" />
+                        </div>
+                        <div class="instr-row">
+                            <div class="instr-swatch" style="background: #2563eb"></div>
+                            <label class="instr-name" for="count-klarinetten">Klarinetten</label>
+                            <input class="instr-count" id="count-klarinetten" type="number" min="0" max="99" value="10" data-register="klarinetten" aria-label="Klarinetten Anzahl" />
+                        </div>
+                        <div class="instr-row">
+                            <div class="instr-swatch" style="background: #ec4899"></div>
+                            <label class="instr-name" for="count-saxophone">Saxophone</label>
+                            <input class="instr-count" id="count-saxophone" type="number" min="0" max="99" value="3" data-register="saxophone" aria-label="Saxophone Anzahl" />
+                        </div>
+                        <div class="instr-row">
+                            <div class="instr-swatch" style="background: #059669"></div>
+                            <label class="instr-name" for="count-hoerner">Hörner</label>
+                            <input class="instr-count" id="count-hoerner" type="number" min="0" max="99" value="3" data-register="hoerner" aria-label="Hörner Anzahl" />
+                        </div>
+                        <div class="instr-row">
+                            <div class="instr-swatch" style="background: #eab308"></div>
+                            <label class="instr-name" for="count-trompeten">Trompeten</label>
+                            <input class="instr-count" id="count-trompeten" type="number" min="0" max="99" value="5" data-register="trompeten" aria-label="Trompeten Anzahl" />
+                        </div>
+                        <div class="instr-row">
+                            <div class="instr-swatch" style="background: #a855f7"></div>
+                            <label class="instr-name" for="count-fluegelhoerner">Flügelhörner</label>
+                            <input class="instr-count" id="count-fluegelhoerner" type="number" min="0" max="99" value="5" data-register="fluegelhoerner" aria-label="Flügelhörner Anzahl" />
+                        </div>
+                        <div class="instr-row">
+                            <div class="instr-swatch" style="background: #10b981"></div>
+                            <label class="instr-name" for="count-tenorhorn-bariton">Tenorhorn/Bariton</label>
+                            <input class="instr-count" id="count-tenorhorn-bariton" type="number" min="0" max="99" value="5" data-register="tenorhorn_bariton" aria-label="Tenorhorn/Bariton Anzahl" />
+                        </div>
+                        <div class="instr-row">
+                            <div class="instr-swatch" style="background: #e85d04"></div>
+                            <label class="instr-name" for="count-posaunen">Posaunen</label>
+                            <input class="instr-count" id="count-posaunen" type="number" min="0" max="99" value="5" data-register="posaunen" aria-label="Posaunen Anzahl" />
+                        </div>
+                        <div class="instr-row">
+                            <div class="instr-swatch" style="background: #dc2626"></div>
+                            <label class="instr-name" for="count-tuben">Tuben</label>
+                            <input class="instr-count" id="count-tuben" type="number" min="0" max="99" value="3" data-register="tuben" aria-label="Tuben Anzahl" />
+                        </div>
+
+                        <!-- Schlagzeug (single input, no sub-instruments) -->
+                        <div class="instr-row">
+                            <div class="instr-swatch" style="background: #6b7280"></div>
+                            <label class="instr-name" for="count-schlagzeug">Schlagzeug</label>
+                            <input class="instr-count" id="count-schlagzeug" type="number" min="0" max="99" value="3" data-register="schlagzeug" aria-label="Schlagzeug Anzahl" />
+                        </div>
+                    </div>
+
+                    <div class="sidebar-footer">
+                        <div class="instr-row">
+                            <label class="instr-name" for="count-columns" style="font-weight:600; color: var(--color-text-primary);">Spieler pro Reihe</label>
+                            <div class="toggle-group">
+                                <button type="button" class="toggle-btn" data-columns="4">4</button>
+                                <button type="button" class="toggle-btn active" data-columns="5">5</button>
+                            </div>
+                            <input type="hidden" id="count-columns" value="5" />
+                        </div>
+
+                        <div class="stat-line">Gesamt: <strong id="total-count">0</strong> Musiker</div>
+                        <div id="form-error" class="form-error" role="alert" aria-live="polite" hidden></div>
+                        <button type="submit" id="submit-btn" class="submit-btn">
+                            <span class="btn-text">Formation berechnen</span>
+                            <span class="loading-spinner hidden" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Formation Display Section -->
+            <section class="stage-wrap" aria-label="Formationsanzeige">
+                <div id="formation-display" class="formation-display">
+                    <div class="empty-state">Bitte Besetzung eingeben.</div>
+                </div>
+
+                <!-- Legend Area -->
+                <div id="legend" class="legend" aria-label="Legende"></div>
+
+                <!-- PNG Export -->
+                <button type="button" id="export-png" class="export-btn" disabled aria-label="Als PNG exportieren">
+                    PNG exportieren
+                </button>
+            </section>
+        </div>
+
+    </div>
+
+    <!-- html2canvas for PNG export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- Application entry point -->
+    <script type="module" src="./js/main.js"></script>
+
+    <!-- Fallback: prevent native form submission if module fails to load -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var form = document.getElementById('input-form');
+        if (form) {
+          form.addEventListener('submit', function(e) { e.preventDefault(); });
+        }
+      });
+    </script>
+</body>
+
+</html>
